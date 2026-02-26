@@ -32,11 +32,10 @@ export default function LevelBar({ totalExp }: LevelBarProps) {
   }, [stats.progressPercent]);
 
   return (
-    <div className="w-full max-w-xl mx-auto mt-6 bg-gray-900 p-6 rounded-2xl border border-gray-800 shadow-lg">
+    <div className="w-full bg-gray-900 p-6 rounded-2xl border border-gray-800 shadow-lg">
       <div className="flex justify-between items-end mb-4">
         <div className="flex items-center gap-4">
           
-          {/* ⭐️ 이모지 대신 우리가 자른 티어 이미지가 들어가는 부분! */}
           <div className="w-16 h-16 bg-gray-800 rounded-xl flex items-center justify-center border border-gray-700 shadow-inner overflow-hidden">
             <img 
               src={tierImages[stats.tier]} 

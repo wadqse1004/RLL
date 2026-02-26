@@ -20,6 +20,7 @@ export default function Timer({ uid }: TimerProps) {
       const startTimestamp = parseInt(savedStartTime, 10);
       const startDate = new Date(startTimestamp);
       
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       setStartTimeText(startDate.toLocaleTimeString('ko-KR'));
       setEndTimeText('-');
       setIsStudying(true);
