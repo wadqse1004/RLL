@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { collection, query, orderBy, limit, getDocs } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
+import { getUserStats } from '../../lib/levelUp';
 
-// ⭐️ 데이터 모양(타입)을 명확하게 정의해 줍니다.
 interface RankerData {
   id: string;
   displayName: string;
@@ -13,7 +13,6 @@ interface RankerData {
 }
 
 export default function Ranking() {
-  // ⭐️ any 대신 방금 만든 RankerData를 넣어줍니다.
   const [rankers, setRankers] = useState<RankerData[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -25,7 +24,6 @@ export default function Ranking() {
         const q = query(usersRef, orderBy('totalExp', 'desc'), limit(10));
         const querySnapshot = await getDocs(q);
         
-        // ⭐️ 임시 배열에도 RankerData 타입을 넣어줍니다.
         const rankersData: RankerData[] = [];
         
         querySnapshot.forEach((doc) => {
@@ -89,6 +87,8 @@ export default function Ranking() {
         ) : (
           rankers.map((user, index) => {
             const rankStyle = getRankStyle(index);
+            const stats = getUserStats(user.totalExp);
+
             return (
               <div key={user.id} className={`flex items-center justify-between p-5 rounded-xl border transition-all duration-300 hover:scale-[1.02] ${rankStyle}`}>
                 <div className="flex items-center gap-6">
@@ -101,7 +101,7 @@ export default function Ranking() {
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-xl font-bold text-cyan-400">Lv. {user.level}</div>
+                  <div className="text-xl font-bold text-cyan-400">Lv. {stats.level}</div>
                   <div className="text-sm font-mono opacity-70">{user.totalExp?.toLocaleString()} EXP</div>
                 </div>
               </div>
